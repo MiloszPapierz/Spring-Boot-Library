@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+	crossorigin="anonymous"></script>
+<title>Book page</title>
+</head>
+<body class="bg-dark">
+	<div th:replace="~{fragments/header :: header}"></div>
+	<div class="container-sm text-white pt-4">
+		<div class="d-flex flex-lg-row flex-column-reverse">
+			<img th:src="@{${book.imgUrl}}" th:alt="|${book.name} image|"
+				class="img-thumbnail" />
+
+			<div class="d-flex flex-column justify-content-between  ps-5">
+				<h1 th:text="${book.name}"></h1>
+				<div class="d-flex ">
+					<p class="pe-3">Author(s):</p>
+					<span th:each="author, iterStat: ${book.authors}"> <span
+						class="me-2" th:text="|${author.firstname} ${author.lastname}|"></span>
+						<span th:if="${not iterStat.last}">,</span>
+					</span>
+				</div>
+				<div class="d-flex">
+					<p class="pe-3">ISBN:</p>
+					<p th:text="${book.isbn}"></p>
+				</div>
+				<div class="d-flex ">
+					<p class="pe-3">Aankoopprijs:</p>
+					<p th:text="|${book.price} EUR|"></p>
+				</div>
+				<div class="d-flex ">
+					<p class="pe-3">Locations:</p>
+					<div class="table-responsive">
+						<table class="table table-dark table-striped">
+							<thead>
+								<tr>
+									<th class="">placecode1</th>
+									<th>placecode2</th>
+									<th>placename</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="location : ${locations}">
+									<td th:text="${location.placecode1}"></td>
+									<td th:text="${location.placecode2}"></td>
+									<td th:text="${location.placename}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<button class="btn btn-primary mt-4">Add to favorites</button>
+	</div>
+
+</body>
+</html>
