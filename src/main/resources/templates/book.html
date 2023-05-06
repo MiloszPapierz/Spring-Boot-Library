@@ -8,6 +8,7 @@
 	rel="stylesheet"
 	integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
 	crossorigin="anonymous">
+<link th:href="@{/css/styles.css}" rel="stylesheet" />
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
@@ -17,13 +18,14 @@
 <body class="bg-dark">
 	<div th:replace="~{fragments/header :: header}"></div>
 	<div class="container-sm text-white pt-4">
-		<div class="d-flex flex-lg-row flex-column-reverse">
+		<h1 th:text=${book.name} class="book-header-reversed"></h1>
+		<div class="d-flex flex-lg-row flex-column">
 			<img th:src="@{${book.imgUrl}}" th:alt="|${book.name} image|"
 				class="img-thumbnail" />
 
-			<div class="d-flex flex-column justify-content-between  ps-5">
-				<h1 th:text="${book.name}"></h1>
-				<div class="d-flex ">
+			<div class="d-flex flex-column justify-content-between book-info">
+				<h1 th:text="${book.name}" class="book-header"></h1>
+				<div class="d-flex flex-wrap">
 					<p class="pe-3">Author(s):</p>
 					<span th:each="author, iterStat: ${book.authors}"> <span
 						class="me-2" th:text="|${author.firstname} ${author.lastname}|"></span>
