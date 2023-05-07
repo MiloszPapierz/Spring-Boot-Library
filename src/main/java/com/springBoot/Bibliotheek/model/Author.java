@@ -19,7 +19,7 @@ import lombok.ToString;
 @Entity
 @ToString(of = {"firstname","lastname"})
 @EqualsAndHashCode(of = {"firstname","lastname"})
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Author implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id

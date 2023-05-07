@@ -8,4 +8,5 @@ public interface BookService {
 
 	List<Book> getBooks();
 	Book getBookById(Long id);
+	Book addBook(Book book);
 }

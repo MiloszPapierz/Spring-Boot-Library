@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springBoot.Bibliotheek.model.Book;
+import com.springBoot.Bibliotheek.repository.AuthorRepository;
 import com.springBoot.Bibliotheek.repository.BookRepository;
 
 @Service
@@ -16,6 +17,8 @@ public class BookServiceImpl implements BookService {
 
 	@Autowired
 	private BookRepository bookRepository;
+	@Autowired
+	private AuthorRepository authorRepository;
 	
 	@Override
 	public List<Book> getBooks() {
@@ -33,5 +36,11 @@ public class BookServiceImpl implements BookService {
 			return book.get();
 		}
 	return null;
+	}
+
+	@Override
+	public Book addBook(Book book) {
+		authorRepository.saveAll(book.getAuthors());
+		return bookRepository.save(book);
 	}
 }

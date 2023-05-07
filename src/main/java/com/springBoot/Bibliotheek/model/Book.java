@@ -26,7 +26,7 @@ import lombok.ToString;
 
 @Entity
 @EqualsAndHashCode(exclude = {"id","imgUrl"})
-@NoArgsConstructor(access=AccessLevel.PROTECTED)
+@NoArgsConstructor
 @ToString(exclude = "id")
 public class Book implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -57,10 +57,6 @@ public class Book implements Serializable{
 	@Getter
 	@Setter
 	private BigDecimal price;
-	/*
-	@OneToMany
-	@Getter
-	private List<Location> locations;*/
 	
 	public Book(String name,String imgUrl,String isbn,BigDecimal price) {
 		this.name = name;
@@ -68,4 +64,5 @@ public class Book implements Serializable{
 		this.isbn = isbn;
 		this.price = price;
 	}
+	
 }

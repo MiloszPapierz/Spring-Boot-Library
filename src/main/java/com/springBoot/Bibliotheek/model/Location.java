@@ -16,7 +16,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @EqualsAndHashCode(exclude = {"id","book"})
 @ToString(exclude =  "id")
 public class Location implements Serializable {
@@ -40,6 +40,7 @@ public class Location implements Serializable {
 	private String placename;
 	@ManyToOne
 	@Getter
+	@Setter
 	private Book book;
 	
 	public Location(int placecode1, int placecode2,String placename,Book book) {
