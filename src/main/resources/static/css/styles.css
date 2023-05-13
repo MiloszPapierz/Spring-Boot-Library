@@ -10,9 +10,18 @@
 	display: none;
 }
 
-.dropdown-menu a:hover {
+.dropdown-menu a:hover{
     background-color: transparent;
 }
+
+.dropdown-menu p:hover{
+    background-color: transparent;
+}
+
+.dropdown-menu input:hover{
+    background-color: transparent;
+}
+
 
 .form-container {
 	max-width: 800px;

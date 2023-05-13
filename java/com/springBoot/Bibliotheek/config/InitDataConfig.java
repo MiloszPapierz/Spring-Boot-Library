@@ -3,17 +3,23 @@ package com.springBoot.Bibliotheek.config;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.springBoot.Bibliotheek.model.Author;
 import com.springBoot.Bibliotheek.model.Book;
 import com.springBoot.Bibliotheek.model.Location;
+import com.springBoot.Bibliotheek.model.Role;
+import com.springBoot.Bibliotheek.model.User;
 import com.springBoot.Bibliotheek.repository.AuthorRepository;
 import com.springBoot.Bibliotheek.repository.BookRepository;
 import com.springBoot.Bibliotheek.repository.LocationRepository;
+import com.springBoot.Bibliotheek.repository.RoleRepository;
+import com.springBoot.Bibliotheek.repository.UserRepository;
 
 @Component
 public class InitDataConfig implements CommandLineRunner {
@@ -24,7 +30,11 @@ public class InitDataConfig implements CommandLineRunner {
 	private AuthorRepository authorRepository;
 	@Autowired
 	private LocationRepository locationRepository;
-
+	@Autowired 
+	private UserRepository userRepository;
+	@Autowired
+	private RoleRepository roleRepository;
+	
 	@Override
 	public void run(String... args) throws Exception {
 		Author author1 = new Author("Rebecca", "Yarros");
@@ -76,6 +86,17 @@ public class InitDataConfig implements CommandLineRunner {
 		authorRepository.saveAll(Arrays.asList(author1, author2, author3, author4, author5));
 		bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4, book5));
 		locationRepository.saveAll(Arrays.asList(location1,location2,location3,location4,location5,location6,location7));
+		
+		var encoder = new BCryptPasswordEncoder();
+		
+		Role role1 = new Role("ROLE_ADMIN");
+		Role role2 = new Role("ROLE_USER");
+		
+		User user1 = new User("admin", encoder.encode("admin"), new HashSet<>(List.of(role1,role2)));
+		User user2 = new User("user",encoder.encode("user"),new HashSet<>(List.of(role2)));
+		
+		roleRepository.saveAll(Arrays.asList(role1,role2));
+		userRepository.saveAll(Arrays.asList(user1,user2));
 	}
 
 }

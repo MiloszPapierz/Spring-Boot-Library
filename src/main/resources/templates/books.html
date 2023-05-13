@@ -22,7 +22,7 @@
 		<div class="d-flex justify-content-between">
 			<h1 class="text-white">Catalogus</h1>
 			<div>
-				<a class="btn btn-primary" th:href="|/books/add|">Add book</a>
+					<a class="btn btn-primary" th:href="|/books/add|" sec:authorize="hasRole('ADMIN')">Add book</a>
 				<button class="btn btn-primary">Most popular books</button>
 			</div>
 		</div>

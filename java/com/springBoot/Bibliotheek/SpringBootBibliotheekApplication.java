@@ -23,6 +23,7 @@ public class SpringBootBibliotheekApplication implements WebMvcConfigurer{
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addRedirectViewController("/", "/books");
+		registry.addViewController("/403").setViewName("403");
 	}
 	
 	@Bean
