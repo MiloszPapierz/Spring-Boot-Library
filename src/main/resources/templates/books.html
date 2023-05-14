@@ -20,11 +20,18 @@
 	<div th:replace="~{fragments/header :: header}"></div>
 	<div class="container py-4">
 		<div class="d-flex justify-content-between">
-			<h1 class="text-white">Catalogus</h1>
+			<h1 class="text-white"
+				th:text="${#bools.isTrue(favorite) ? 'Most favorite books' : 'Catalogue'}"></h1>
+
 			<div>
-					<a class="btn btn-primary" th:href="|/books/add|" sec:authorize="hasRole('ADMIN')">Add book</a>
-				<button class="btn btn-primary">Most popular books</button>
+				<a class="btn btn-primary" th:href="|/books/add|"
+					sec:authorize="hasRole('ADMIN')">Add book</a> <a
+					class="btn btn-primary" th:href="|/books/favorites|">Most
+					popular books</a>
 			</div>
+		</div>
+		<div th:if=${message} class="text-white">
+			<p th:text="${message}"></p>
 		</div>
 		<div class="table-responsive">
 			<table class="table table-dark table-striped">

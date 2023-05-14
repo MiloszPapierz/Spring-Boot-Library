@@ -25,7 +25,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@EqualsAndHashCode(exclude = {"id","imgUrl"})
+@EqualsAndHashCode(of = "isbn")
 @NoArgsConstructor
 @ToString(exclude = "id")
 public class Book implements Serializable{

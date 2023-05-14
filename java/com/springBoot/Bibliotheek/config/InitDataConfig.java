@@ -12,11 +12,13 @@ import org.springframework.stereotype.Component;
 
 import com.springBoot.Bibliotheek.model.Author;
 import com.springBoot.Bibliotheek.model.Book;
+import com.springBoot.Bibliotheek.model.FavoriteBook;
 import com.springBoot.Bibliotheek.model.Location;
 import com.springBoot.Bibliotheek.model.Role;
 import com.springBoot.Bibliotheek.model.User;
 import com.springBoot.Bibliotheek.repository.AuthorRepository;
 import com.springBoot.Bibliotheek.repository.BookRepository;
+import com.springBoot.Bibliotheek.repository.FavoriteBookRepository;
 import com.springBoot.Bibliotheek.repository.LocationRepository;
 import com.springBoot.Bibliotheek.repository.RoleRepository;
 import com.springBoot.Bibliotheek.repository.UserRepository;
@@ -34,6 +36,8 @@ public class InitDataConfig implements CommandLineRunner {
 	private UserRepository userRepository;
 	@Autowired
 	private RoleRepository roleRepository;
+	@Autowired
+	private FavoriteBookRepository favoriteBookRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -92,11 +96,19 @@ public class InitDataConfig implements CommandLineRunner {
 		Role role1 = new Role("ROLE_ADMIN");
 		Role role2 = new Role("ROLE_USER");
 		
-		User user1 = new User("admin", encoder.encode("admin"), new HashSet<>(List.of(role1,role2)));
-		User user2 = new User("user",encoder.encode("user"),new HashSet<>(List.of(role2)));
+		User user1 = new User("admin", encoder.encode("admin"), new HashSet<>(List.of(role1,role2)),3);
+		User user2 = new User("user",encoder.encode("user"),new HashSet<>(List.of(role2)),2);
 		
 		roleRepository.saveAll(Arrays.asList(role1,role2));
 		userRepository.saveAll(Arrays.asList(user1,user2));
+		
+		//FavoriteBook fb1 = new FavoriteBook(user1, book1);
+		FavoriteBook fb2 = new FavoriteBook(user1, book2);
+		FavoriteBook fb3 = new FavoriteBook(user1, book5);
+		FavoriteBook fb4 = new FavoriteBook(user2, book5);
+		FavoriteBook fb5 = new FavoriteBook(user2, book3);
+		
+		favoriteBookRepository.saveAll(Arrays.asList(fb2,fb3,fb4,fb5));
 	}
 
 }

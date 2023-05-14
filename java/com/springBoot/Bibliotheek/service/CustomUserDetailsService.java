@@ -34,4 +34,8 @@ public class CustomUserDetailsService implements UserDetailsService{
 				.collect(Collectors.toList());
 	}
 
+	
+	public User getLoggedUser(String username) {
+		return userRepository.findByUsername(username).get();
+	}
 }
