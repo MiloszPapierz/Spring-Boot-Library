@@ -14,13 +14,13 @@
 	integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
 	crossorigin="anonymous"></script>
 
-<title>Add book</title>
+<title th:text="#{notAuthorizedpage.title}"></title>
 </head>
 <body class="bg-dark">
 	<div th:replace="~{fragments/header :: header}"></div>
 	<div class="container text-white text-center mt-5">
-		<h1>You are not authorized to view this page</h1>
-		<a th:href="|/books|">Go back to home page</a>
+		<h1 th:text=#{notAuthorizedpage.info}></h1>
+		<a th:href="|/books|" th:text=#{notAuthorizedpage.linkBack}></a>
 	</div>
 </body>
 </html>
