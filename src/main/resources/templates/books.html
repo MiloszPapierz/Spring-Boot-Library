@@ -14,19 +14,23 @@
 	integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
 	crossorigin="anonymous"></script>
 
-<title>Book page</title>
+<title th:text="#{bookspage.title}"></title>
 </head>
 <body class="bg-dark">
 	<div th:replace="~{fragments/header :: header}"></div>
 	<div class="container py-4">
 		<div class="d-flex justify-content-between">
-			<h1 class="text-white"
-				th:text="${#bools.isTrue(favorite) ? 'Most favorite books' : 'Catalogue'}"></h1>
+			<th:block th:if="${#bools.isTrue(favorite)}">
+				<h1 class="text-white" th:text="#{bookspage.fav}"></h1>
+			</th:block>
+			<th:block th:if="${not #bools.isTrue(favorite)}">
+				<h1 class="text-white" th:text="#{bookspage.header}"></h1>
+			</th:block>
 
 			<div>
 				<a class="btn btn-primary" th:href="|/books/add|"
-					sec:authorize="hasRole('ADMIN')">Add book</a> <a
-					class="btn btn-primary" th:href="|/books/favorites|">Most
+					sec:authorize="hasRole('ADMIN')" th:text="#{bookspage.addButton}"></a>
+				<a class="btn btn-primary" th:href="|/books/favorites|" th:text="#{bookspage.popularButton}">Most
 					popular books</a>
 			</div>
 		</div>
@@ -37,9 +41,9 @@
 			<table class="table table-dark table-striped">
 				<thead>
 					<tr>
-						<th>Book Image</th>
-						<th>Book Title</th>
-						<th>Authors</th>
+						<th th:text="#{bookspage.tableTitle}"></th>
+						<th th:text="#{bookspage.tableBookTitle}"></th>
+						<th th:text="#{bookspage.tableAuthors}"></th>
 					</tr>
 				</thead>
 				<tbody>

@@ -1,5 +1,6 @@
 package com.springBoot.Bibliotheek;
 
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -30,5 +31,6 @@ public class SpringBootBibliotheekApplication implements WebMvcConfigurer{
 	BookService bookService() {
 		return new BookServiceImpl();
 	}
+	
 	
 }

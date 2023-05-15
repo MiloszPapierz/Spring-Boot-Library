@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +42,8 @@ public class BookController {
 	private LocationService locationService;
 	@Autowired
 	private CustomUserDetailsService userService;
+	@Autowired
+	private MessageSource messageSource;
 	private static final Logger log = LoggerFactory.getLogger(BookController.class);
 
 	@GetMapping
@@ -136,7 +140,7 @@ public class BookController {
 		
 		bookService.removeFavoriteBook(fb);
 		
-		redirectAttributes.addAttribute("message",book.getName() + " was removed from your favorites");
+		redirectAttributes.addAttribute("message", messageSource.getMessage("bookspage.favoriteRemoved", new Object[]{book.getName()}, LocaleContextHolder.getLocale()));
 		
 		return "redirect:/books";
 	}
@@ -152,7 +156,8 @@ public class BookController {
 		
 		bookService.addFavoriteBook(fb);
 		
-		redirectAttributes.addAttribute("message",book.getName() + " was added to your favorites");
+		redirectAttributes.addAttribute("message", messageSource.getMessage("bookspage.favoriteAdded", new Object[]{book.getName()}, LocaleContextHolder.getLocale()));
+
 		
 		return "redirect:/books";
 	}
