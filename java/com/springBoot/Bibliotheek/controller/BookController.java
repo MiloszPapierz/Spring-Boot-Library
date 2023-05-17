@@ -12,6 +12,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +29,10 @@ import com.springBoot.Bibliotheek.model.User;
 import com.springBoot.Bibliotheek.service.BookService;
 import com.springBoot.Bibliotheek.service.CustomUserDetailsService;
 import com.springBoot.Bibliotheek.service.LocationService;
+import com.springBoot.Bibliotheek.validator.FormAuthorsWrapperValidation;
+import com.springBoot.Bibliotheek.validator.IsbnValidation;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -44,6 +48,10 @@ public class BookController {
 	private CustomUserDetailsService userService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private IsbnValidation isbnValidator;
+	@Autowired
+	private FormAuthorsWrapperValidation formAuthorsWrapperValidation;
 	private static final Logger log = LoggerFactory.getLogger(BookController.class);
 
 	@GetMapping
@@ -115,9 +123,27 @@ public class BookController {
 		return "addBook";
 	}
 
-	@PostMapping
-	public String postAddBookForm(@ModelAttribute Book book, @ModelAttribute FormAuthorsWrapper wrapper,
-			@ModelAttribute FormLocationsWrapper locationsWrapper) {
+	@PostMapping(path ="/add")
+	public String postAddBookForm(@Valid @ModelAttribute Book book,BindingResult bindingResultBook,@Valid @ModelAttribute FormAuthorsWrapper wrapper,BindingResult bindingResultWrapper,
+			@ModelAttribute FormLocationsWrapper locationsWrapper,Model model) {
+			isbnValidator.validate(book, bindingResultBook);
+			formAuthorsWrapperValidation.validate(wrapper, bindingResultWrapper);
+	
+			System.out.println(bindingResultWrapper.getModel());
+			
+		if(bindingResultBook.hasErrors() || bindingResultWrapper.hasErrors()) {
+			model.addAttribute("book", book);
+			model.addAttribute("authors", wrapper);
+			model.addAttribute("locations", locationsWrapper);
+			
+			System.out.print(bindingResultWrapper.getFieldError());
+			
+			System.out.println(bindingResultWrapper.getAllErrors());
+			System.out.println(bindingResultWrapper.getAllErrors());
+			
+			return "addBook";
+		}
+		
 		book.getAuthors().addAll(wrapper.getAuthorsWrapper());
 		book.setImgUrl(
 				"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png");

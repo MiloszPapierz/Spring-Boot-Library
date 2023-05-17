@@ -11,6 +11,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.springBoot.Bibliotheek.service.BookService;
 import com.springBoot.Bibliotheek.service.BookServiceImpl;
+import com.springBoot.Bibliotheek.validator.FormAuthorsWrapperValidation;
+import com.springBoot.Bibliotheek.validator.IsbnValidation;
 
 @SpringBootApplication
 @EnableJpaRepositories("com.springBoot.Bibliotheek.repository")
@@ -32,5 +34,13 @@ public class SpringBootBibliotheekApplication implements WebMvcConfigurer{
 		return new BookServiceImpl();
 	}
 	
+	@Bean
+	IsbnValidation isbnValidation() {
+		return new IsbnValidation();
+	}
 	
+	@Bean
+	FormAuthorsWrapperValidation formAuthorsWrapperValidation() {
+		return new FormAuthorsWrapperValidation();
+	}
 }

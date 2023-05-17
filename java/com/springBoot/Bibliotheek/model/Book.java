@@ -3,9 +3,9 @@ package com.springBoot.Bibliotheek.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.NumberFormat;
 
 import jakarta.persistence.Column;
@@ -16,8 +16,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import lombok.AccessLevel;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,7 @@ public class Book implements Serializable{
 	@Getter
 	@Setter
 	@Column(nullable = false)
+	@NotEmpty(message = "{validation.bookname.NotEmpty}")
 	private String name;
 	@Getter
 	@Setter
@@ -51,9 +53,12 @@ public class Book implements Serializable{
 	@Column(nullable = false,unique = true)
 	@Getter
 	@Setter
+	@NotEmpty
 	private String isbn;
 	@Column(nullable = false)
 	@NumberFormat(pattern="#,##0.00")
+	@DecimalMin(value = "0.01",message = "{validation.bookprice.DecimalMin}")
+	@DecimalMax(value="99.99",message= "{validation.bookprice.DecimalMax}")
 	@Getter
 	@Setter
 	private BigDecimal price;

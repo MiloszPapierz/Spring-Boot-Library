@@ -15,4 +15,6 @@ import lombok.ToString;
 @ToString
 public class FormAuthorsWrapper {
 	private List<Author> authorsWrapper;
+	private String errorMessage;
+
 }

@@ -20,95 +20,121 @@
 	<div th:replace="~{fragments/header :: header}"></div>
 	<div class="container text-white">
 		<h1 class="mt-5" th:text=#{addBookpage.header}></h1>
-		<form th:action="@{/books}" th:object="${book}"
+		<form th:action="@{/books/add}" th:object="${book}"
 			class="border border-secondary rounded form-container p-4"
 			method="post">
 			<div class="form-group row">
-				<label for="bookName" class="col-sm-2 col-form-label" th:text="#{addBookpage.name} + '*'"></label>
+				<label for="bookName" class="col-sm-2 col-form-label"
+					th:text="#{addBookpage.name} + '*'"></label>
 				<div class="col-sm-10">
 					<input type="text" th:field="*{name}"
 						class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
-						id="bookName" th:placeholder="#{addBookpage.namePlaceholder}" required>
+						id="bookName" th:placeholder="#{addBookpage.namePlaceholder}">
+					<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+						class="error"> </span>
 				</div>
 			</div>
 			<div th:object="${authors}">
 				<div class="form-group row">
-					<label class="col-sm-2 col-form-label" th:text="#{addBookpage.author} + ' 1*'"></label>
+					<label class="col-sm-2 col-form-label"
+						th:text="#{addBookpage.author} + ' 1*'"></label>
 					<div class="col-sm-5">
 						<input type="text" th:field="*{authorsWrapper[0].firstname}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
-							id="author1-firstname" th:placeholder="#{addBookpage.authorFistName}" required>
+							id="author1-firstname"
+							th:placeholder="#{addBookpage.authorFistName}">
 					</div>
 					<div class="col-sm-5">
 						<input type="text" th:field="*{authorsWrapper[0].lastname}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
-							id="author1-lastname" th:placeholder="#{addBookpage.authorLastName}" required>
+							id="author1-lastname"
+							th:placeholder="#{addBookpage.authorLastName}">
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="col-sm-2 col-form-label" th:text="#{addBookpage.author} + ' 2'"></label>
+					<label class="col-sm-2 col-form-label"
+						th:text="#{addBookpage.author} + ' 2'"></label>
 					<div class="col-sm-5">
 						<input type="text" th:field="*{authorsWrapper[1].firstname}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
-							id="author2-firstname" th:placeholder="#{addBookpage.authorFistName}">
+							id="author2-firstname"
+							th:placeholder="#{addBookpage.authorFistName}">
 					</div>
 					<div class="col-sm-5">
 						<input type="text" th:field="*{authorsWrapper[1].lastname}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
-							id="author2-lastname" th:placeholder="#{addBookpage.authorLastName}">
+							id="author2-lastname"
+							th:placeholder="#{addBookpage.authorLastName}">
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="col-sm-2 col-form-label"  th:text="#{addBookpage.author} + ' 3'"></label>
+					<label class="col-sm-2 col-form-label"
+						th:text="#{addBookpage.author} + ' 3'"></label>
 					<div class="col-sm-5">
-						<input type="text"
+						<input type="text" th:field="*{authorsWrapper[2].firstname}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
-							id="author3-firstname" th:placeholder="#{addBookpage.authorFistName}">
+							id="author3-firstname"
+							th:placeholder="#{addBookpage.authorFistName}">
 					</div>
 					<div class="col-sm-5">
-						<input type="text"
+						<input type="text" th:field="*{authorsWrapper[2].lastname}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
-							id="author3-lastname" th:placeholder="#{addBookpage.authorLastName}">
+							id="author3-lastname"
+							th:placeholder="#{addBookpage.authorLastName}">
+							<span th:text="*{errorMessage}" class="text-white"></span>
+						<span th:text="${#fields.errors('errorMessage')}"></span>
 					</div>
 				</div>
 			</div>
+
 			<div class="form-group row">
 				<label for="isbn" class="col-sm-2 col-form-label">ISBN</label>
 				<div class="col-sm-10">
 					<input type="text" th:field="*{isbn}"
 						class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
-						id="isbn" placeholder="ISBN" required>
+						id="isbn" placeholder="ISBN"> <span
+						th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"
+						class="error"> </span>
+
 				</div>
 			</div>
 			<div class="form-group row">
-				<label for="price" class="col-sm-2 col-form-label" th:text="#{addBookpage.price}"></label>
+				<label for="price" class="col-sm-2 col-form-label"
+					th:text="#{addBookpage.price}"></label>
 				<div class="col-sm-10">
 					<input type="number" th:field="*{price}"
 						class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
-						id="price" step=".01" min="0.01" max="99.99" placeholder="9,99">
+						id="price" step=".01" placeholder="9,99"> <span
+						th:if="${#fields.hasErrors('price')}" th:errors="*{price}"
+						class="error"> </span>
 				</div>
 			</div>
 			<div th:object="${locations}">
 				<div class="form-group row">
-					<label class="col-sm-2 col-form-label" th:text="#{addBookpage.location} + ' 1*'"></label>
+					<label class="col-sm-2 col-form-label"
+						th:text="#{addBookpage.location} + ' 1*'"></label>
 					<div class="col-sm-4">
-						<input type="text" required th:field="*{locationsWrapper[0].placename}"
+						<input type="text" required
+							th:field="*{locationsWrapper[0].placename}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
 							id="" th:placeholder="#{addBookpage.locationName}">
 					</div>
 					<div class="col-sm-3">
-						<input type="number" required th:field="*{locationsWrapper[0].placecode1}"
+						<input type="number" required
+							th:field="*{locationsWrapper[0].placecode1}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
 							id="" placeholder="Place Code1">
 					</div>
 					<div class="col-sm-3">
-						<input type="number" required th:field="*{locationsWrapper[0].placecode2}"
+						<input type="number" required
+							th:field="*{locationsWrapper[0].placecode2}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
 							id="" placeholder="Place Code2">
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="col-sm-2 col-form-label" th:text="#{addBookpage.location} + ' 2'"></label>
+					<label class="col-sm-2 col-form-label"
+						th:text="#{addBookpage.location} + ' 2'"></label>
 					<div class="col-sm-4">
 						<input type="text" th:field="*{locationsWrapper[1].placename}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
@@ -126,7 +152,8 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="col-sm-2 col-form-label" th:text="#{addBookpage.location} + ' 3'"></label>
+					<label class="col-sm-2 col-form-label"
+						th:text="#{addBookpage.location} + ' 3'"></label>
 					<div class="col-sm-4">
 						<input type="text" th:field="*{locationsWrapper[2].placename}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
@@ -144,7 +171,8 @@
 					</div>
 				</div>
 			</div>
-			<button type="submit" class="btn btn-lg btn-primary" th:text="#{addBookpage.button}"></button>
+			<button type="submit" class="btn btn-lg btn-primary"
+				th:text="#{addBookPage.button}"></button>
 		</form>
 	</div>
 </body>
