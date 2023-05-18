@@ -82,7 +82,7 @@
 							id="author3-lastname"
 							th:placeholder="#{addBookpage.authorLastName}">
 							<span th:text="*{errorMessage}" class="text-white"></span>
-						<span th:text="${#fields.errors('errorMessage')}"></span>
+						<span th:if="${#fields.errors('errorMessage')}" class="error" th:errors="*{errorMessage}"></span>
 					</div>
 				</div>
 			</div>
