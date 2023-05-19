@@ -15,6 +15,7 @@ public class IsbnValidation implements Validator{
     @Override
     public void validate(Object target, Errors errors) {
         Book book = (Book) target;
+
         String isbn = book.getIsbn().replaceAll("[\\s-]", "");
 
         // Controleer of het ISBN-nummer 13-cijferig is

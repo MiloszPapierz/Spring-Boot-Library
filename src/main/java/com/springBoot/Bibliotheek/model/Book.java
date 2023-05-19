@@ -5,8 +5,10 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.NumberFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,12 +45,14 @@ public class Book implements Serializable{
 	@Getter
 	@Setter
 	@Column(name="img_url",columnDefinition = "TEXT")
+	@JsonProperty("img_url")
 	private String imgUrl;
 	@ManyToMany
 	@Getter
 	@JoinTable(name="book_author",
 	joinColumns = @JoinColumn(name="book_id"),
 	inverseJoinColumns = @JoinColumn(name="author_id"))
+	@JsonIgnoreProperties("books")
 	private Set<Author> authors = new HashSet<>();
 	@Column(nullable = false,unique = true)
 	@Getter

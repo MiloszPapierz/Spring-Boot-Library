@@ -9,6 +9,7 @@ public interface BookService {
 
 	List<Book> getBooks();
 	Book getBookById(Long id);
+	Book getBookByIsbn(String isbn);
 	Book addBook(Book book);
 	List<Book> getFavoriteBooks();
 	List<FavoriteBook> getFavoriteBooksByUsername(String username);

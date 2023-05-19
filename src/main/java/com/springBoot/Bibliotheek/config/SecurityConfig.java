@@ -22,7 +22,8 @@ public class SecurityConfig {
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf().and()
 			.authorizeHttpRequests(requests ->
-					requests.requestMatchers("/login**").permitAll()
+					requests.requestMatchers("/api/**").permitAll()
+					.requestMatchers("/login**").permitAll()
 					.requestMatchers("/css/**").permitAll()
 					.requestMatchers("/books/add").hasRole("ADMIN")
 					.requestMatchers("/**").hasAnyRole("USER","ADMIN"))

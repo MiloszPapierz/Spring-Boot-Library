@@ -8,6 +8,7 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.springBoot.Bibliotheek.exceptions.BookNotFoundException;
 import com.springBoot.Bibliotheek.model.Book;
 import com.springBoot.Bibliotheek.model.FavoriteBook;
 import com.springBoot.Bibliotheek.repository.AuthorRepository;
@@ -76,5 +77,16 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public Long getNumberOfFavoritesForBookByBookId(Long bookId) {
 		return favoriteBookRepository.countByBookId(bookId);
+	}
+
+	@Override
+	public Book getBookByIsbn(String isbn) {
+		Book book =  bookRepository.findByIsbn(isbn);
+		
+		if(book == null) {
+			throw new BookNotFoundException(isbn);
+		}
+		
+		return book;
 	}
 }

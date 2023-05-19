@@ -3,6 +3,9 @@ package com.springBoot.Bibliotheek.model;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,6 +40,7 @@ public class Author implements Serializable {
 	private String lastname;
 	@ManyToMany(mappedBy="authors")
 	@Getter
+	@JsonIgnoreProperties("authors")
 	private Set<Book> books = new HashSet<>();
 
 	public Author(String firstname, String lastname) {
