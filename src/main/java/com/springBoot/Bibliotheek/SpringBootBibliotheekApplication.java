@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.springBoot.Bibliotheek.perform.PerformRestExample;
 import com.springBoot.Bibliotheek.service.BookService;
 import com.springBoot.Bibliotheek.service.BookServiceImpl;
 import com.springBoot.Bibliotheek.validator.FormAuthorsWrapperValidation;
@@ -21,6 +22,12 @@ public class SpringBootBibliotheekApplication implements WebMvcConfigurer{
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootBibliotheekApplication.class, args);
+		
+		try {
+			new PerformRestExample();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

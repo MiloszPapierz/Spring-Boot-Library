@@ -49,28 +49,28 @@ public class InitDataConfig implements CommandLineRunner {
 
 		Book book1 = new Book("Fourth Wing",
 				"https://prodimage.images-bn.com/lf?set=key%5Bresolve.pixelRatio%5D,value%5B1%5D&set=key%5Bresolve.width%5D,value%5B300%5D&set=key%5Bresolve.height%5D,value%5B10000%5D&set=key%5Bresolve.imageFit%5D,value%5Bcontainerwidth%5D&set=key%5Bresolve.allowImageUpscaling%5D,value%5B0%5D&set=key%5Bresolve.format%5D,value%5Bwebp%5D&product=path%5B/pimages/9781649374042_p0_v5%5D&call=url%5Bfile:common/decodeProduct.chain%5D",
-				"978-1649374042", BigDecimal.valueOf(16.99));
+				"9781649374042", BigDecimal.valueOf(16.99));
 		book1.getAuthors().add(author1);
 		book1.getAuthors().add(author2);
 
 		Book book2 = new Book("The Brothers Hawthorne",
 				"https://prodimage.images-bn.com/lf?set=key%5Bresolve.pixelRatio%5D,value%5B1%5D&set=key%5Bresolve.width%5D,value%5B300%5D&set=key%5Bresolve.height%5D,value%5B10000%5D&set=key%5Bresolve.imageFit%5D,value%5Bcontainerwidth%5D&set=key%5Bresolve.allowImageUpscaling%5D,value%5B0%5D&set=key%5Bresolve.format%5D,value%5Bwebp%5D&product=path%5B/pimages/9780316565233_p0_v1%5D&call=url%5Bfile:common/decodeProduct.chain%5D",
-				"978-0316480772", BigDecimal.valueOf(29.99));
+				"9780316480772", BigDecimal.valueOf(29.99));
 		book2.getAuthors().add(author2);
 
 		Book book3 = new Book("Wildfire",
 				"https://prodimage.images-bn.com/lf?set=key%5Bresolve.pixelRatio%5D,value%5B1%5D&set=key%5Bresolve.width%5D,value%5B300%5D&set=key%5Bresolve.height%5D,value%5B10000%5D&set=key%5Bresolve.imageFit%5D,value%5Bcontainerwidth%5D&set=key%5Bresolve.allowImageUpscaling%5D,value%5B0%5D&set=key%5Bresolve.format%5D,value%5Bwebp%5D&product=path%5B/pimages/9781668046845_p0_v1%5D&call=url%5Bfile:common/decodeProduct.chain%5D",
-				"978-1338606072", BigDecimal.valueOf(16.99));
+				"9781338606072", BigDecimal.valueOf(16.99));
 		book3.getAuthors().add(author3);
 
 		Book book4 = new Book("Foxglove",
 				"https://prodimage.images-bn.com/lf?set=key%5Bresolve.pixelRatio%5D,value%5B1%5D&set=key%5Bresolve.width%5D,value%5B300%5D&set=key%5Bresolve.height%5D,value%5B10000%5D&set=key%5Bresolve.imageFit%5D,value%5Bcontainerwidth%5D&set=key%5Bresolve.allowImageUpscaling%5D,value%5B0%5D&set=key%5Bresolve.format%5D,value%5Bwebp%5D&product=path%5B/pimages/9780316565257_p0_v1%5D&call=url%5Bfile:common/decodeProduct.chain%5D",
-				"978-0316162500", BigDecimal.valueOf(34.99));
+				"9780316162500", BigDecimal.valueOf(34.99));
 		book4.getAuthors().add(author4);
 		
 		Book book5 = new Book("Meet Me at the lake",
 				"https://prodimage.images-bn.com/lf?set=key%5Bresolve.pixelRatio%5D,value%5B1%5D&set=key%5Bresolve.width%5D,value%5B300%5D&set=key%5Bresolve.height%5D,value%5B10000%5D&set=key%5Bresolve.imageFit%5D,value%5Bcontainerwidth%5D&set=key%5Bresolve.allowImageUpscaling%5D,value%5B0%5D&set=key%5Bresolve.format%5D,value%5Bwebp%5D&product=path%5B/pimages/9780593641279_p0_v1%5D&call=url%5Bfile:common/decodeProduct.chain%5D",
-				"978-0735243781", BigDecimal.valueOf(29.99));
+				"9780735243781", BigDecimal.valueOf(29.99));
 		book5.getAuthors().add(author5);
 
 		author1.getBooks().add(book1);

@@ -126,7 +126,7 @@ public class BookController {
 	@PostMapping(path ="/add")
 	public String postAddBookForm(@Valid @ModelAttribute Book book,BindingResult bindingResultBook,@ModelAttribute FormAuthorsWrapper wrapper,BindingResult bindingResultWrapper,
 			@ModelAttribute FormLocationsWrapper locationsWrapper,Model model) {
-			isbnValidator.validate(book.getIsbn(), bindingResultBook);
+			isbnValidator.validate(book, bindingResultBook);
 			formAuthorsWrapperValidation.validate(wrapper, bindingResultWrapper);
 	
 			System.out.println(bindingResultWrapper.getModel());
