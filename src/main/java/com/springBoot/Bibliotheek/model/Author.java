@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ import lombok.ToString;
 @ToString(of = {"firstname","lastname"})
 @EqualsAndHashCode(of = {"firstname","lastname"})
 @NoArgsConstructor
+@AllArgsConstructor
 public class Author implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id

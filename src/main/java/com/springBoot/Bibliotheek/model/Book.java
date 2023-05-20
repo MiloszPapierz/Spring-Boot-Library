@@ -21,6 +21,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,7 @@ import lombok.ToString;
 @Entity
 @EqualsAndHashCode(of = "isbn")
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString(exclude = "id")
 public class Book implements Serializable{
 	private static final long serialVersionUID = 1L;
