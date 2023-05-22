@@ -30,6 +30,7 @@ import com.springBoot.Bibliotheek.service.BookService;
 import com.springBoot.Bibliotheek.service.CustomUserDetailsService;
 import com.springBoot.Bibliotheek.service.LocationService;
 import com.springBoot.Bibliotheek.validator.FormAuthorsWrapperValidation;
+import com.springBoot.Bibliotheek.validator.FormLocationsWrapperValidation;
 import com.springBoot.Bibliotheek.validator.IsbnValidation;
 
 import jakarta.validation.Valid;
@@ -52,6 +53,8 @@ public class BookController {
 	private IsbnValidation isbnValidator;
 	@Autowired
 	private FormAuthorsWrapperValidation formAuthorsWrapperValidation;
+	@Autowired
+	private FormLocationsWrapperValidation formLocationsWrapperValidation;
 	private static final Logger log = LoggerFactory.getLogger(BookController.class);
 
 	@GetMapping
@@ -124,24 +127,17 @@ public class BookController {
 	}
 
 	@PostMapping(path ="/add")
-	public String postAddBookForm(@Valid @ModelAttribute("Book") Book book,BindingResult resultBook,@ModelAttribute("FormAuthorsWrapper") FormAuthorsWrapper formAuthorsWrapper,BindingResult resultFormAuthorsWrapper,
-			@ModelAttribute("FormLocationsWrapper") FormLocationsWrapper formLocationsWrapper,BindingResult resultFormLocationsWrapper,Model model) {
-		System.out.println(book);
-		System.out.println(formLocationsWrapper.getLocationsWrapper());
+	public String postAddBookForm(@Valid @ModelAttribute Book book,BindingResult resultBook,@ModelAttribute FormAuthorsWrapper formAuthorsWrapper,BindingResult resultFormAuthorsWrapper,
+			@ModelAttribute FormLocationsWrapper formLocationsWrapper,BindingResult resultFormLocationsWrapper,Model model) {
 			isbnValidator.validate(book, resultBook);
 			formAuthorsWrapperValidation.validate(formAuthorsWrapper, resultFormAuthorsWrapper);
-			//System.out.println(book);
-			//System.out.println(bindingResultWrapper.getModel());
+			formLocationsWrapperValidation.validate(formLocationsWrapper, resultFormLocationsWrapper);
 			
-		if(resultBook.hasErrors() || resultFormAuthorsWrapper.hasErrors()) {
+		if(resultBook.hasErrors() || resultFormAuthorsWrapper.hasErrors() || resultFormLocationsWrapper.hasErrors()) {
 			model.addAttribute("book", book);
 			model.addAttribute("authors", formAuthorsWrapper);
 			model.addAttribute("locations", formLocationsWrapper);
-			
-			/*System.out.print(bindingResultWrapper.getFieldError());
-			
-			System.out.println(bindingResultWrapper.getAllErrors());
-			System.out.println(bindingResultWrapper.getAllErrors())*/
+
 			
 			return "addBook";
 		}
