@@ -17,7 +17,6 @@
 <title th:text="#{notAuthorizedpage.title}"></title>
 </head>
 <body class="bg-dark">
-	<div th:replace="~{fragments/header :: header}"></div>
 	<div class="container text-white text-center mt-5">
 		<h1 th:text=#{notAuthorizedpage.info}></h1>
 		<a th:href="|/books|" th:text=#{notAuthorizedpage.linkBack}></a>
