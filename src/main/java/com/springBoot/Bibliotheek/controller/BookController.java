@@ -124,33 +124,35 @@ public class BookController {
 	}
 
 	@PostMapping(path ="/add")
-	public String postAddBookForm(@Valid @ModelAttribute Book book,BindingResult bindingResultBook,@ModelAttribute FormAuthorsWrapper wrapper,BindingResult bindingResultWrapper,
-			@ModelAttribute FormLocationsWrapper locationsWrapper,Model model) {
-			isbnValidator.validate(book, bindingResultBook);
-			formAuthorsWrapperValidation.validate(wrapper, bindingResultWrapper);
-	
-			System.out.println(bindingResultWrapper.getModel());
+	public String postAddBookForm(@Valid @ModelAttribute("Book") Book book,BindingResult resultBook,@ModelAttribute("FormAuthorsWrapper") FormAuthorsWrapper formAuthorsWrapper,BindingResult resultFormAuthorsWrapper,
+			@ModelAttribute("FormLocationsWrapper") FormLocationsWrapper formLocationsWrapper,BindingResult resultFormLocationsWrapper,Model model) {
+		System.out.println(book);
+		System.out.println(formLocationsWrapper.getLocationsWrapper());
+			isbnValidator.validate(book, resultBook);
+			formAuthorsWrapperValidation.validate(formAuthorsWrapper, resultFormAuthorsWrapper);
+			//System.out.println(book);
+			//System.out.println(bindingResultWrapper.getModel());
 			
-		if(bindingResultBook.hasErrors() || bindingResultWrapper.hasErrors()) {
+		if(resultBook.hasErrors() || resultFormAuthorsWrapper.hasErrors()) {
 			model.addAttribute("book", book);
-			model.addAttribute("authors", wrapper);
-			model.addAttribute("locations", locationsWrapper);
+			model.addAttribute("authors", formAuthorsWrapper);
+			model.addAttribute("locations", formLocationsWrapper);
 			
-			System.out.print(bindingResultWrapper.getFieldError());
+			/*System.out.print(bindingResultWrapper.getFieldError());
 			
 			System.out.println(bindingResultWrapper.getAllErrors());
-			System.out.println(bindingResultWrapper.getAllErrors());
+			System.out.println(bindingResultWrapper.getAllErrors())*/
 			
 			return "addBook";
 		}
 		
-		book.getAuthors().addAll(wrapper.getAuthorsWrapper());
+		book.getAuthors().addAll(formAuthorsWrapper.getAuthorsWrapper());
 		book.setImgUrl(
 				"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png"); //Random URL for now. Will add image upload later.
 
 		Book addedBook = bookService.addBook(book);
 
-		locationService.addLocationsForBook(locationsWrapper.getLocationsWrapper(), addedBook);
+		locationService.addLocationsForBook(formLocationsWrapper.getLocationsWrapper(), addedBook);
 
 		return "redirect:/books";
 	}
