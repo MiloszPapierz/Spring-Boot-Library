@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springBoot.Bibliotheek.exceptions.BookNotFoundException;
+import com.springBoot.Bibliotheek.exceptions.CustomGenericException;
 import com.springBoot.Bibliotheek.model.Book;
 import com.springBoot.Bibliotheek.model.FavoriteBook;
 import com.springBoot.Bibliotheek.repository.AuthorRepository;
@@ -40,7 +41,8 @@ public class BookServiceImpl implements BookService {
 		if(book.isPresent()) {
 			return book.get();
 		}
-	return null;
+		
+		throw new CustomGenericException("Test","Test");
 	}
 
 	@Override
