@@ -30,6 +30,7 @@ import com.springBoot.Bibliotheek.service.BookService;
 import com.springBoot.Bibliotheek.service.CustomUserDetailsService;
 import com.springBoot.Bibliotheek.service.LocationService;
 import com.springBoot.Bibliotheek.validator.FormAuthorsWrapperValidation;
+import com.springBoot.Bibliotheek.validator.FormLocationsWrapperValidation;
 import com.springBoot.Bibliotheek.validator.IsbnValidation;
 
 import jakarta.validation.Valid;
@@ -52,16 +53,18 @@ public class BookController {
 	private IsbnValidation isbnValidator;
 	@Autowired
 	private FormAuthorsWrapperValidation formAuthorsWrapperValidation;
+	@Autowired
+	private FormLocationsWrapperValidation formLocationsWrapperValidation;
 	private static final Logger log = LoggerFactory.getLogger(BookController.class);
 
 	@GetMapping
-	public String getBooksPage(Model model,@RequestParam(value="message",required = false) String message) {
+	public String getBooksPage(Model model, @RequestParam(value = "message", required = false) String message) {
 		log.info("Get books page");
 
-		if(message != null) {
-			model.addAttribute("message",message);
+		if (message != null) {
+			model.addAttribute("message", message);
 		}
-		
+
 		model.addAttribute("books", bookService.getBooks());
 
 		return "books";
@@ -84,12 +87,13 @@ public class BookController {
 		User user = userService.getLoggedUser(principal.getName());
 
 		List<FavoriteBook> listOfUserFavoriteBooks = bookService.getFavoriteBooksByUsername(user.getUsername());
-		boolean alreadyAdded = listOfUserFavoriteBooks.stream().filter(fb -> fb.getBook().getId() == id).collect(Collectors.toList()).size() > 0;
+		boolean alreadyAdded = listOfUserFavoriteBooks.stream().filter(fb -> fb.getBook().getId() == id)
+				.collect(Collectors.toList()).size() > 0;
 		boolean hasReachedMaximum = listOfUserFavoriteBooks.size() >= user.getMaxFavorites();
-		
+
 		Long numberOfFavorites = bookService.getNumberOfFavoritesForBookByBookId(id);
-		
-		model.addAttribute("numberOfFavorites",numberOfFavorites);
+
+		model.addAttribute("numberOfFavorites", numberOfFavorites);
 		model.addAttribute("alreadyAdded", alreadyAdded);
 		model.addAttribute("reachedMaximum", hasReachedMaximum);
 		model.addAttribute("locations", locationService.getLocationsByBookId(id));
@@ -123,71 +127,70 @@ public class BookController {
 		return "addBook";
 	}
 
-	@PostMapping(path ="/add")
-	public String postAddBookForm(@Valid @ModelAttribute("Book") Book book,BindingResult resultBook,@ModelAttribute("FormAuthorsWrapper") FormAuthorsWrapper formAuthorsWrapper,BindingResult resultFormAuthorsWrapper,
-			@ModelAttribute("FormLocationsWrapper") FormLocationsWrapper formLocationsWrapper,BindingResult resultFormLocationsWrapper,Model model) {
-		System.out.println(book);
-		System.out.println(formLocationsWrapper.getLocationsWrapper());
-			isbnValidator.validate(book, resultBook);
-			formAuthorsWrapperValidation.validate(formAuthorsWrapper, resultFormAuthorsWrapper);
-			//System.out.println(book);
-			//System.out.println(bindingResultWrapper.getModel());
-			
-		if(resultBook.hasErrors() || resultFormAuthorsWrapper.hasErrors()) {
+	@PostMapping(path = "/add")
+	public String postAddBookForm(@Valid @ModelAttribute(value="book") Book book, BindingResult bindingResultBook,
+			@ModelAttribute(value="authors") FormAuthorsWrapper authors, BindingResult bindingResultAuthor,
+			@ModelAttribute(value="locations") FormLocationsWrapper locations, BindingResult bindingResultLocation,
+			Model model) {
+		System.out.println(authors);
+		isbnValidator.validate(book, bindingResultBook);
+		formAuthorsWrapperValidation.validate(authors, bindingResultAuthor);
+		formLocationsWrapperValidation.validate(locations, bindingResultLocation);
+
+		if (bindingResultBook.hasErrors() || bindingResultAuthor.hasErrors() || bindingResultLocation.hasErrors()) {
 			model.addAttribute("book", book);
-			model.addAttribute("authors", formAuthorsWrapper);
-			model.addAttribute("locations", formLocationsWrapper);
-			
-			/*System.out.print(bindingResultWrapper.getFieldError());
-			
-			System.out.println(bindingResultWrapper.getAllErrors());
-			System.out.println(bindingResultWrapper.getAllErrors())*/
-			
+			model.addAttribute("authors", authors);
+			model.addAttribute("locations", locations);
+
 			return "addBook";
 		}
-		
-		book.getAuthors().addAll(formAuthorsWrapper.getAuthorsWrapper());
+
+		book.getAuthors().addAll(authors.getAuthorsWrapper());
 		book.setImgUrl(
-				"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png"); //Random URL for now. Will add image upload later.
+				"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png"); // Random																													// upload
+																																	// later.
 
 		Book addedBook = bookService.addBook(book);
 
-		locationService.addLocationsForBook(formLocationsWrapper.getLocationsWrapper(), addedBook);
+		locationService.addLocationsForBook(locations.getLocationsWrapper(), addedBook);
 
 		return "redirect:/books";
 	}
-	
-	@PostMapping(value = "/favorites/remove") 
-	public String postRemoveBookFromFavorites(@RequestParam("bookId") Long bookId,Principal principal,RedirectAttributes redirectAttributes) {
+
+	@PostMapping(value = "/favorites/remove")
+	public String postRemoveBookFromFavorites(@RequestParam("bookId") Long bookId, Principal principal,
+			RedirectAttributes redirectAttributes) {
 		log.info("Removing book with id" + bookId + " from favorites for user " + principal.getName());
-		
-		User user = userService.getLoggedUser(principal.getName());
-		Book book = bookService.getBookById(bookId);
-		
-		FavoriteBook fb = new FavoriteBook(user,book);
-		
-		bookService.removeFavoriteBook(fb);
-		
-		redirectAttributes.addAttribute("message", messageSource.getMessage("bookspage.favoriteRemoved", new Object[]{book.getName()}, LocaleContextHolder.getLocale()));
-		
-		return "redirect:/books";
-	}
-	
-	@PostMapping(value = "/favorites/add") 
-	public String postAddBookToFavorites(@RequestParam("bookId") Long bookId,Principal principal,RedirectAttributes redirectAttributes) {
-		log.info("Adding book with id" + bookId + " to favorites for user " + principal.getName());
-		
-		User user = userService.getLoggedUser(principal.getName());
-		Book book = bookService.getBookById(bookId);
-		
-		FavoriteBook fb = new FavoriteBook(user,book);
-		
-		bookService.addFavoriteBook(fb);
-		
-		redirectAttributes.addAttribute("message", messageSource.getMessage("bookspage.favoriteAdded", new Object[]{book.getName()}, LocaleContextHolder.getLocale()));
 
-		
+		User user = userService.getLoggedUser(principal.getName());
+		Book book = bookService.getBookById(bookId);
+
+		FavoriteBook fb = new FavoriteBook(user, book);
+
+		bookService.removeFavoriteBook(fb);
+
+		redirectAttributes.addAttribute("message", messageSource.getMessage("bookspage.favoriteRemoved",
+				new Object[] { book.getName() }, LocaleContextHolder.getLocale()));
+
 		return "redirect:/books";
 	}
-	
+
+	@PostMapping(value = "/favorites/add")
+	public String postAddBookToFavorites(@RequestParam("bookId") Long bookId, Principal principal,
+			RedirectAttributes redirectAttributes) {
+		log.info("Adding book with id" + bookId + " to favorites for user " + principal.getName());
+
+		User user = userService.getLoggedUser(principal.getName());
+		Book book = bookService.getBookById(bookId);
+
+		FavoriteBook fb = new FavoriteBook(user, book);
+
+		bookService.addFavoriteBook(fb);
+
+		redirectAttributes.addAttribute("message", messageSource.getMessage("bookspage.favoriteAdded",
+				new Object[] { book.getName() }, LocaleContextHolder.getLocale()));
+
+		return "redirect:/books";
+	}
+
 }

@@ -20,6 +20,7 @@ import com.springBoot.Bibliotheek.perform.PerformRestExample;
 import com.springBoot.Bibliotheek.service.BookService;
 import com.springBoot.Bibliotheek.service.BookServiceImpl;
 import com.springBoot.Bibliotheek.validator.FormAuthorsWrapperValidation;
+import com.springBoot.Bibliotheek.validator.FormLocationsWrapperValidation;
 import com.springBoot.Bibliotheek.validator.IsbnValidation;
 
 @SpringBootApplication
@@ -57,6 +58,11 @@ public class SpringBootBibliotheekApplication implements WebMvcConfigurer{
 	@Bean
 	FormAuthorsWrapperValidation formAuthorsWrapperValidation() {
 		return new FormAuthorsWrapperValidation();
+	}
+	
+	@Bean
+	FormLocationsWrapperValidation formLocationsWrapperValidation() {
+		return new FormLocationsWrapperValidation();
 	}
 	
 	/*@Bean

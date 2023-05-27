@@ -13,4 +13,5 @@ import lombok.Setter;
 @Setter
 public class FormLocationsWrapper {
 	private List<Location> locationsWrapper;
+	private String errorMessage;
 }

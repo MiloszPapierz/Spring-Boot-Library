@@ -81,9 +81,9 @@
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
 							id="author3-lastname"
 							th:placeholder="#{addBookpage.authorLastName}">
-							<span th:text="*{errorMessage}" class="text-white"></span>
-						<span th:if="${#fields.errors('errorMessage')}" class="error" th:errors="*{errorMessage}"></span>
 					</div>
+					<span th:text="${#fields.errors('errorMessage')}"
+						th:errors="*{errorMessage}" class="error"></span>
 				</div>
 			</div>
 
@@ -114,20 +114,17 @@
 					<label class="col-sm-2 col-form-label"
 						th:text="#{addBookpage.location} + ' 1*'"></label>
 					<div class="col-sm-4">
-						<input type="text" required
-							th:field="*{locationsWrapper[0].placename}"
+						<input type="text" th:field="*{locationsWrapper[0].placename}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
 							id="" th:placeholder="#{addBookpage.locationName}">
 					</div>
 					<div class="col-sm-3">
-						<input type="number" required
-							th:field="*{locationsWrapper[0].placecode1}"
+						<input type="number" th:field="*{locationsWrapper[0].placecode1}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
 							id="" placeholder="Place Code1">
 					</div>
 					<div class="col-sm-3">
-						<input type="number" required
-							th:field="*{locationsWrapper[0].placecode2}"
+						<input type="number" th:field="*{locationsWrapper[0].placecode2}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
 							id="" placeholder="Place Code2">
 					</div>
@@ -139,6 +136,7 @@
 						<input type="text" th:field="*{locationsWrapper[1].placename}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
 							id="" th:placeholder="#{addBookpage.locationName}">
+
 					</div>
 					<div class="col-sm-3">
 						<input type="number" th:field="*{locationsWrapper[1].placecode1}"
@@ -167,7 +165,9 @@
 					<div class="col-sm-3">
 						<input type="number" th:field="*{locationsWrapper[2].placecode2}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
-							id="" placeholder="Place Code2">
+							id="" placeholder="Place Code2"> <span
+							th:if="${#fields.hasErrors('errorMessage')}"
+							th:errors="*{errorMessage}" class="error"></span>
 					</div>
 				</div>
 			</div>

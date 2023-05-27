@@ -30,7 +30,7 @@ public class FormAuthorsWrapperValidation implements Validator{
 		
 		
 		if(validAuthors.isEmpty()) {
-			errors.rejectValue("errorMessage", "Test", "Test");
+			errors.rejectValue("errorMessage", "validation.bookAuthors.min", "Authors validation failed");
 
 		} else {
 			wrapper.setAuthorsWrapper(validAuthors);
