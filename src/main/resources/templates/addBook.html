@@ -80,10 +80,10 @@
 						<input type="text" th:field="*{authorsWrapper[2].lastname}"
 							class="form-control-plaintext border border-secondary text-secondary ps-2 rounded"
 							id="author3-lastname"
-							th:placeholder="#{addBookpage.authorLastName}"> <span
-							th:text="*{errorMessage}" class="text-white"></span> <span
-							th:text="${#fields.hasErrors('errorMessage')}" class="error"></span>
+							th:placeholder="#{addBookpage.authorLastName}">
 					</div>
+					<span th:text="${#fields.errors('errorMessage')}"
+						th:errors="*{errorMessage}" class="error"></span>
 				</div>
 			</div>
 

@@ -22,40 +22,49 @@ public class FormLocationsWrapperValidation implements Validator {
 		List<Location> locations = wrapper.getLocationsWrapper();
 
 		locations = locations.stream()
-				.filter(loc -> !loc.getPlacename().isBlank() && loc.getPlacecode1() != 0 && loc.getPlacecode2() != 0)
+				.filter(loc -> filterLocations(loc))
 				.collect(Collectors.toList());
-
+		
+		wrapper.setLocationsWrapper(locations);
+		
 		if (locations.size() == 0) {
-			errors.rejectValue("errorMessage", "empty.locations", "Er moet minstens 1 locatie ingevuld zijn.");
+			errors.rejectValue("errorMessage", "validation.locations.min", "At least 1 location needs to be filled in");
 		} else {
 			for (int i = 0; i < locations.size(); i++) {
 				Location location = locations.get(i);
 
 				// Validatie voor plaatscode1
 				if (location.getPlacecode1() < 50 || location.getPlacecode1() > 300) {
-					errors.rejectValue("errorMessage", "invalid.plaatscode1",
-							"Plaatscode1 moet een geheel getal zijn tussen 50 en 300.");
+					errors.rejectValue("errorMessage", "validation.locations.placecode1",
+							"Placecode1 has to be a number between 50 and 300");
 				}
 
 				// Validatie voor plaatscode2
 				if (location.getPlacecode2() < 50 || location.getPlacecode2() > 300) {
-					errors.rejectValue("errorMessage", "invalid.plaatscode2",
-							"Plaatscode2 moet een geheel getal zijn tussen 50 en 300.");
+					errors.rejectValue("errorMessage", "validation.locations.placecode2",
+							"Placecode2 has to be a number between 50 and 300");
 				}
 
 				// Validatie voor het verschil tussen plaatscode1 en plaatscode2
 				if (Math.abs(location.getPlacecode1() - location.getPlacecode2()) < 50) {
-					errors.rejectValue("errorMessage", "invalid.plaatscode2",
-							"Het verschil tussen plaatscode1 en plaatscode2 moet minstens 50 zijn.");
+					errors.rejectValue("errorMessage", "validation.locations.placecode",
+							"The difference between placecode1 and placecode2 has to be at least 50");
 				}
 
 				// Validatie voor plaatsnaam
 				if (!location.getPlacename().matches("[a-zA-Z]+")) {
-					errors.rejectValue("errorMessage", "invalid.plaatsnaam",
-							"Plaatsnaam mag enkel uit letters bestaan.");
+					errors.rejectValue("errorMessage", "validation.locations.placename",
+							"Placename can only contain characters");
 				}
 			}
 		}
 
+	}
+	
+	public boolean filterLocations(Location location) {
+		if(location.getPlacename().isBlank() || location.getPlacecode1() == 0 || location.getPlacecode2() == 0) {
+			return false;
+		} 
+		return true;
 	}
 }

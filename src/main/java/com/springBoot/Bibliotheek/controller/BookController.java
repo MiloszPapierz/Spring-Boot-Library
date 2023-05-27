@@ -128,30 +128,31 @@ public class BookController {
 	}
 
 	@PostMapping(path = "/add")
-	public String postAddBookForm(@Valid @ModelAttribute Book book, BindingResult resultBook,
-			@ModelAttribute FormAuthorsWrapper formAuthorsWrapper, BindingResult resultFormAuthorsWrapper,
-			@ModelAttribute FormLocationsWrapper formLocationsWrapper, BindingResult resultFormLocationsWrapper,
+	public String postAddBookForm(@Valid @ModelAttribute(value="book") Book book, BindingResult bindingResultBook,
+			@ModelAttribute(value="authors") FormAuthorsWrapper authors, BindingResult bindingResultAuthor,
+			@ModelAttribute(value="locations") FormLocationsWrapper locations, BindingResult bindingResultLocation,
 			Model model) {
-		isbnValidator.validate(book, resultBook);
-		formAuthorsWrapperValidation.validate(formAuthorsWrapper, resultFormAuthorsWrapper);
-		formLocationsWrapperValidation.validate(formLocationsWrapper, resultFormLocationsWrapper);
+		System.out.println(authors);
+		isbnValidator.validate(book, bindingResultBook);
+		formAuthorsWrapperValidation.validate(authors, bindingResultAuthor);
+		formLocationsWrapperValidation.validate(locations, bindingResultLocation);
 
-		if (resultBook.hasErrors() || resultFormAuthorsWrapper.hasErrors() || resultFormLocationsWrapper.hasErrors()) {
+		if (bindingResultBook.hasErrors() || bindingResultAuthor.hasErrors() || bindingResultLocation.hasErrors()) {
 			model.addAttribute("book", book);
-			model.addAttribute("authors", formAuthorsWrapper);
-			model.addAttribute("locations", formLocationsWrapper);
+			model.addAttribute("authors", authors);
+			model.addAttribute("locations", locations);
 
 			return "addBook";
 		}
 
-		book.getAuthors().addAll(formAuthorsWrapper.getAuthorsWrapper());
+		book.getAuthors().addAll(authors.getAuthorsWrapper());
 		book.setImgUrl(
 				"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png"); // Random																													// upload
 																																	// later.
 
 		Book addedBook = bookService.addBook(book);
 
-		locationService.addLocationsForBook(formLocationsWrapper.getLocationsWrapper(), addedBook);
+		locationService.addLocationsForBook(locations.getLocationsWrapper(), addedBook);
 
 		return "redirect:/books";
 	}

@@ -61,13 +61,13 @@ public class Book implements Serializable{
 	@Setter
 	@NotEmpty
 	private String isbn;
-	@Column(nullable = false)
+	@Column(nullable = true)
 	@NumberFormat(pattern="#,##0.00")
-	@DecimalMin(value = "0.01",message = "{validation.bookprice.DecimalMin}")
+	@DecimalMin(value = "0.00",message = "{validation.bookprice.DecimalMin}")
 	@DecimalMax(value="99.99",message= "{validation.bookprice.DecimalMax}")
 	@Getter
 	@Setter
-	private BigDecimal price;
+	private BigDecimal price = new BigDecimal(0);
 	
 	public Book(String name,String imgUrl,String isbn,BigDecimal price) {
 		this.name = name;
